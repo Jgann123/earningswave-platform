@@ -59,13 +59,13 @@ model Earnings {
 }
 
 model Transcript {
-  id          String    @id @default(uuid())
-  earningsId  String    @unique
-  earnings    Earnings  @relation(fields: [earningsId], references: [id])
-  fullText    String    @db.Text
-  sections    Json
-  participants Json
-  href        String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            String    @id @default(uuid())
+  earningsId    String    @unique
+  earnings      Earnings  @relation(fields: [earningsId], references: [id])
+  fullText      String    @db.Text
+  sections      Json
+  participants  Json
+  href          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
