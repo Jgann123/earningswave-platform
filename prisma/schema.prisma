@@ -25,3 +25,47 @@ model Email {
   address   String   @unique
   createdAt DateTime @default(now())
 }
+
+model Company {
+  id            String    @id @default(uuid())
+  ticker        String    @unique
+  name          String
+  logoUrl       String?
+  earnings      Earnings[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([ticker])
+}
+
+model Earnings {
+  id              String    @id @default(uuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id])
+  date            DateTime
+  quarter         Int
+  year            Int
+  callTime        String?
+  epsEstimate     Float?
+  epsActual       Float?
+  revenueEstimate Float?
+  revenueActual   Float?
+  transcript      Transcript?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([date])
+  @@index([companyId, date])
+}
+
+model Transcript {
+  id          String    @id @default(uuid())
+  earningsId  String    @unique
+  earnings    Earnings  @relation(fields: [earningsId], references: [id])
+  fullText    String    @db.Text
+  sections    Json
+  participants Json
+  href        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
